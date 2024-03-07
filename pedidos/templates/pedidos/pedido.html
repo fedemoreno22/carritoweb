@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+    {% if messages %}
+        <div class="alert alert-success text-center" style="margin: 10px auto; width: fit-content;">
+        {% for message in messages %}
+            <span>{{ message }}</span>
+        {% endfor %}
+        </div>
+    {% endif %}
+    <div style="color: white; background-color:  rgba(24, 64, 8); margin: 10px 0; padding: 20px; border-radius: 5px;">
+        <div style="font-size: 18px;">
+            <p>Hola {{nombre_usuario}}</p>
+            <p>Email de usuario: {{email_usuario}}</p>
+            <p>Monto a pagar: {{ importe_total_pedido|floatformat:2 }} €</p>
+            <p>Detalle del pedido:</p>
+        </div>
+        <table class="table table-success table-hover" style="color: black; width: 70%; margin: 30px auto; text-align: center;">
+            <thead>
+                <tr>
+                    <th>
+                        CANTIDAD
+                    </th>
+                    <th>
+                        PRODUCTO
+                    </th>
+                    <th>
+                        PRECIO UNITARIO
+                    </th>
+                    <th>
+                        IMPORTE
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for linea, importe_total_linea in datos_lineas %}
+                    <tr>
+                        <td>
+                            {{ linea.cantidad }}
+                        </td>
+                        <td>
+                            {{ linea.producto.nombre }}
+                        </td>
+                        <td>
+                            {{ linea.producto.precio|floatformat:2 }} €
+                        </td>
+                        <td>                            
+                                {{ importe_total_linea|floatformat:2 }} €
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr style="font-weight: bold;">
+                    <td colspan="3" style="text-align: right; padding-right: 50px;">
+                        TOTAL
+                    </td>
+                    <td>
+                        {{ importe_total_pedido|floatformat:2 }} €
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+{% endblock %}
